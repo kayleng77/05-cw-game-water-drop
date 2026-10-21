@@ -1,6 +1,7 @@
 // Variables to control game state
 let gameRunning = false; // Keeps track of whether game is active or not
 let dropMaker; // Will store our timer that creates drops regularly
+let timerValue = 5;
 
 // Wait for button click to start the game
 document.getElementById("start-btn").addEventListener("click", startGame);
@@ -9,6 +10,20 @@ function startGame() {
   // Prevent multiple games from running at once
   if (gameRunning) return;
 
+  const countdownInterval = setInterval(function() {
+    timerValue--;
+    time.textContent = timerValue;
+
+    if (timerValue <= 0) {
+      clearInterval(countdownInterval);
+      clearInterval(dropMaker);
+      gameRunning = false;
+      time.textContent = "0";
+      document.querySelector(".message").textContent = "Game over!";
+    }
+
+  }, 1000);
+  
   gameRunning = true;
 
   // Create new drops every second (1000 milliseconds)
