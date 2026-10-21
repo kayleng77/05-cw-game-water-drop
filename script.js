@@ -1,8 +1,9 @@
 // Variables to control game state
 let gameRunning = false; // Keeps track of whether game is active or not
 //let dropMaker; // Will store our timer that creates drops regularly
-let cloudMaker; // Will store our timer that moves the cloud regularly
-let timerValue = 5;
+let cloudMaker; // Will store our timer that changes the cloud's weather
+let cloudMover; // Will store our timer that moves the cloud
+let timerValue = 30;
 let scoreValue = 0;
 const startButton = document.getElementById("start-btn");
 const cloud = document.getElementById("cloud");
@@ -17,12 +18,23 @@ let loseMessage =["😢 Better luck next time!", "😴 Too slow!", "Keep trying!
 // Wait for button click to start the game
 document.getElementById("start-btn").addEventListener("click", startGame);
 
+cloud.addEventListener("click", function() {
+  if (gameRunning && cloud.textContent === "🌧️") {
+    scoreValue += 1;
+    score.textContent = scoreValue;
+  }
+  else if (gameRunning && cloud.textContent === "☁️") {
+    scoreValue -= 1;
+    score.textContent = scoreValue;
+  }
+});
+
 function startGame() {
   // Prevent multiple games from running at once
   if (gameRunning) return;
 
   if (timerValue <= 0) {
-    timerValue = 5;
+    timerValue = 30;
     scoreValue = 0;
     score.textContent = scoreValue;
     time.textContent = timerValue;
@@ -36,7 +48,8 @@ function startGame() {
 
     if (timerValue <= 0) {
       clearInterval(countdownInterval);
-      clearInterval(cloudMaker);
+      clearTimeout(cloudMaker);
+      clearInterval(cloudMover);
       gameRunning = false;
       time.textContent = "0";
       message.textContent = "Game over!";
@@ -55,18 +68,15 @@ function startGame() {
   }, 1000);
   
   gameRunning = true;
+  cloud.textContent = "🌧️";
 
   // Create new drops every second (1000 milliseconds)
   //dropMaker = setInterval(createDrop, 1000);
-  cloudMaker = setInterval(moveCloud, 1000); // Move cloud every 2 seconds
-}
 
-cloud.addEventListener("click", function() {
-  if (gameRunning) {
-    scoreValue += 1;
-    score.textContent = scoreValue;
-  }
-});
+  moveCloud();
+  cloudMover = setInterval(moveCloud, 1000);
+  changeCloudWeather();
+}
 
 function moveCloud() {
   // Find the available space for the cloud
@@ -80,6 +90,15 @@ function moveCloud() {
   // Move the cloud to that position
   cloud.style.left = randomX + "px";
   cloud.style.top = randomY + "px";
+}
+
+function changeCloudWeather() {
+  if (!gameRunning) return;
+
+  cloudMaker = setTimeout(function() {
+    cloud.textContent = cloud.textContent === "🌧️" ? "☁️" : "🌧️";
+    changeCloudWeather();
+  }, 500 + Math.random() * 1500);
 }
 
 /*
