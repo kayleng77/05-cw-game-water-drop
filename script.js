@@ -11,8 +11,8 @@ const score = document.getElementById("score");
 const time = document.getElementById("time");
 const message = document.querySelector(".message");
 
-let winMessage =["Congratulations! You won!", "Great job!", "You're a water collecting master!"];
-let loseMessage =["Better luck next time!", "Too slow!", "Keep trying!", "Yikes! You can do better!"];
+let winMessage =["😀 Congratulations! You won!", "🎉 Great job!", "💧 You're a water collecting master!"];
+let loseMessage =["😢 Better luck next time!", "😴 Too slow!", "Keep trying!", "😦 Yikes! You can do better!"];
 
 // Wait for button click to start the game
 document.getElementById("start-btn").addEventListener("click", startGame);
