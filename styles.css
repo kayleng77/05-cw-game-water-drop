@@ -85,6 +85,9 @@ body {
   transition: left 1s ease, top 1s ease;
 }
 
+#cloud:hover {
+    transform: scale(1.1);  /* Slight grow effect on hover */
+}
 
 #start-btn {
     padding: 8px 16px;
@@ -106,6 +109,7 @@ body {
     font-weight: bold;
 }
 
+
 .water-drop {
     position: absolute;
     width: 60px;  /* increased from 40px */
@@ -118,11 +122,13 @@ body {
     padding: 15px;  /* Add padding for larger click area */
     margin: -15px;  /* Offset padding to maintain visual size */
     transition: transform 0.1s ease;  /* Smooth hover effect */
-}
+} 
 
 .water-drop:hover {
     transform: scale(1.1);  /* Slight grow effect on hover */
 }
+
+
 
 .bad-drop {
     background-color: #ff4444;

@@ -3,6 +3,8 @@ let gameRunning = false; // Keeps track of whether game is active or not
 //let dropMaker; // Will store our timer that creates drops regularly
 let cloudMaker; // Will store our timer that moves the cloud regularly
 let timerValue = 5;
+let scoreValue = 0;
+let startButton = document.getElementById("start-btn");
 const cloud = document.getElementById("cloud");
 const gameArea = document.getElementById("game-container");
 
@@ -13,9 +15,18 @@ function startGame() {
   // Prevent multiple games from running at once
   if (gameRunning) return;
 
+  let score = document.getElementById("score");
+  
   const countdownInterval = setInterval(function() {
     timerValue--;
     time.textContent = timerValue;
+
+    cloud.addEventListener("click", function() {
+      if (gameRunning) {
+        scoreValue += 1;
+        score.textContent = scoreValue;
+      }
+    });
 
     if (timerValue <= 0) {
       clearInterval(countdownInterval);
@@ -23,6 +34,7 @@ function startGame() {
       gameRunning = false;
       time.textContent = "0";
       document.querySelector(".message").textContent = "Game over!";
+      startButton.textContent = "Restart Game";
     }
 
   }, 1000);
