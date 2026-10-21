@@ -1,10 +1,12 @@
 // Variables to control game state
 let gameRunning = false; // Keeps track of whether game is active or not
 //let dropMaker; // Will store our timer that creates drops regularly
-let cloudMaker; // Will store our timer that changes the cloud's weather
-let cloudMover; // Will store our timer that moves the cloud
-let timerValue = 30;
+let cloudMaker; // Stores ID timer that changes the cloud's weather
+let cloudMover; // Stores timer that moves the cloud
+let timerValue = 30; 
 let scoreValue = 0;
+
+// DOM elements 
 const startButton = document.getElementById("start-btn");
 const cloud = document.getElementById("cloud");
 const gameArea = document.getElementById("game-container");
@@ -57,6 +59,8 @@ function startGame() {
       if(scoreValue >= 5) {
         const randomWinMessage = winMessage[Math.floor(Math.random() * winMessage.length)];
         message.textContent = randomWinMessage;
+        showConfetti();
+
       } else {
         const randomLoseMessage = loseMessage[Math.floor(Math.random() * loseMessage.length)];
         message.textContent = randomLoseMessage;
@@ -73,8 +77,8 @@ function startGame() {
   // Create new drops every second (1000 milliseconds)
   //dropMaker = setInterval(createDrop, 1000);
 
-  moveCloud();
-  cloudMover = setInterval(moveCloud, 1000);
+  moveCloud(); // Move the cloud immediately when the game starts (1st second then stops)
+  cloudMover = setInterval(moveCloud, 1000); 
   changeCloudWeather();
 }
 
@@ -99,6 +103,15 @@ function changeCloudWeather() {
     cloud.textContent = cloud.textContent === "🌧️" ? "☁️" : "🌧️";
     changeCloudWeather();
   }, 500 + Math.random() * 1500);
+}
+
+function showConfetti() {
+  confetti({
+      particleCount: 100,
+      spread: 100,
+      origin: { y: 0.6 }
+    }
+  );
 }
 
 /*
