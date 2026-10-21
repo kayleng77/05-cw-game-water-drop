@@ -4,9 +4,15 @@ let gameRunning = false; // Keeps track of whether game is active or not
 let cloudMaker; // Will store our timer that moves the cloud regularly
 let timerValue = 5;
 let scoreValue = 0;
-let startButton = document.getElementById("start-btn");
+const startButton = document.getElementById("start-btn");
 const cloud = document.getElementById("cloud");
 const gameArea = document.getElementById("game-container");
+const score = document.getElementById("score");
+const time = document.getElementById("time");
+const message = document.querySelector(".message");
+
+let winMessage =["Congratulations! You won!", "Great job!", "You're a water collecting master!"];
+let loseMessage =["Better luck next time!", "Too slow!", "Keep trying!", "Yikes! You can do better!"];
 
 // Wait for button click to start the game
 document.getElementById("start-btn").addEventListener("click", startGame);
@@ -15,25 +21,34 @@ function startGame() {
   // Prevent multiple games from running at once
   if (gameRunning) return;
 
-  let score = document.getElementById("score");
+  if (timerValue <= 0) {
+    timerValue = 5;
+    scoreValue = 0;
+    score.textContent = scoreValue;
+    time.textContent = timerValue;
+    message.textContent = "";
+    startButton.textContent = "Start Game";
+  }
   
   const countdownInterval = setInterval(function() {
     timerValue--;
     time.textContent = timerValue;
-
-    cloud.addEventListener("click", function() {
-      if (gameRunning) {
-        scoreValue += 1;
-        score.textContent = scoreValue;
-      }
-    });
 
     if (timerValue <= 0) {
       clearInterval(countdownInterval);
       clearInterval(cloudMaker);
       gameRunning = false;
       time.textContent = "0";
-      document.querySelector(".message").textContent = "Game over!";
+      message.textContent = "Game over!";
+
+      if(scoreValue >= 5) {
+        const randomWinMessage = winMessage[Math.floor(Math.random() * winMessage.length)];
+        message.textContent = randomWinMessage;
+      } else {
+        const randomLoseMessage = loseMessage[Math.floor(Math.random() * loseMessage.length)];
+        message.textContent = randomLoseMessage;
+      }
+
       startButton.textContent = "Restart Game";
     }
 
@@ -45,6 +60,13 @@ function startGame() {
   //dropMaker = setInterval(createDrop, 1000);
   cloudMaker = setInterval(moveCloud, 1000); // Move cloud every 2 seconds
 }
+
+cloud.addEventListener("click", function() {
+  if (gameRunning) {
+    scoreValue += 1;
+    score.textContent = scoreValue;
+  }
+});
 
 function moveCloud() {
   // Find the available space for the cloud

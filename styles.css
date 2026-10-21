@@ -26,11 +26,35 @@ Fonts:
 
 body {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
+    background-color: #2E9DF7;
+    font-family: "Proxima Nova", "Avenir", sans-serif;
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: auto;
+    
+    background-color: #ffffff;
+}
+
+.footer-content img {
+    display: block;
+    width: min(300px, 100%);
+    height: auto;
+}
+
+
+.footer-content img {
+    width: 300px;  /* choose the size you want */
+    height: auto;  /* preserve the logo's proportions */
+    max-width: 100%;
 }
 
 .game-wrapper {
@@ -45,16 +69,24 @@ body {
     justify-content: space-between;  /* Space between score and button */
     align-items: center;
     width: 800px;
-    padding: 10px;
+    padding: 20px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    
 }
 
 .timer {
     flex: 0 1 auto;
     font-size: 24px;
     font-weight: bold;
+}
+
+.message {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
 }
 
 #game-container {
@@ -69,9 +101,9 @@ body {
     position: relative;
     width: 800px;
     height: 500px;
-    background-color: #e0f4ff;
+    background-color: #2E9DF7;
     overflow: hidden;
-    border: 2px solid #333;
+    border: 2px solid #2E9DF7;
     border-radius: 8px;
     
 }
@@ -91,16 +123,17 @@ body {
 
 #start-btn {
     padding: 8px 16px;
-    background-color: #4CAF50;
+    background-color: #2E9DF7;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    font-family: "Proxima Nova", "Avenir", sans-serif;
 }
 
 #start-btn:hover {
-    background-color: #45a049;
+    background-color: #2883ce;
 }
 
 .score {
@@ -140,6 +173,7 @@ body {
     margin-top: 0;
     margin-bottom: 5px;  /* reduced from 20px */
     text-align: center;
+    font-family: "Avenir", sans-serif;
 }
 
 .game-tagline {
@@ -148,6 +182,8 @@ body {
     margin-bottom: 20px;
     text-align: center;
 }
+
+
 
 @keyframes dropFall {
     from {
