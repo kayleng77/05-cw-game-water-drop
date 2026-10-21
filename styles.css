@@ -58,13 +58,31 @@ body {
 }
 
 #game-container {
-    width: 800px;
+    /*width: 800px;
     height: 600px;
     background-color: #e6f7ff;
     border: 2px solid #333;
     border-radius: 8px;
     position: relative;
+    overflow: hidden;*/
+
+    position: relative;
+    width: 800px;
+    height: 500px;
+    background-color: #e0f4ff;
     overflow: hidden;
+    border: 2px solid #333;
+    border-radius: 8px;
+    
+}
+
+#cloud {
+  position: absolute;
+  left: 100px;
+  top: 100px;
+  font-size: 60px;
+  cursor: pointer;
+  transition: left 1s ease, top 1s ease;
 }
 
 

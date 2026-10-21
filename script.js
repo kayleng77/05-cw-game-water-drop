@@ -1,7 +1,10 @@
 // Variables to control game state
 let gameRunning = false; // Keeps track of whether game is active or not
-let dropMaker; // Will store our timer that creates drops regularly
+//let dropMaker; // Will store our timer that creates drops regularly
+let cloudMaker; // Will store our timer that moves the cloud regularly
 let timerValue = 5;
+const cloud = document.getElementById("cloud");
+const gameArea = document.getElementById("game-container");
 
 // Wait for button click to start the game
 document.getElementById("start-btn").addEventListener("click", startGame);
@@ -16,7 +19,7 @@ function startGame() {
 
     if (timerValue <= 0) {
       clearInterval(countdownInterval);
-      clearInterval(dropMaker);
+      clearInterval(cloudMaker);
       gameRunning = false;
       time.textContent = "0";
       document.querySelector(".message").textContent = "Game over!";
@@ -27,9 +30,25 @@ function startGame() {
   gameRunning = true;
 
   // Create new drops every second (1000 milliseconds)
-  dropMaker = setInterval(createDrop, 1000);
+  //dropMaker = setInterval(createDrop, 1000);
+  cloudMaker = setInterval(moveCloud, 1000); // Move cloud every 2 seconds
 }
 
+function moveCloud() {
+  // Find the available space for the cloud
+  const maxX = gameArea.clientWidth - cloud.offsetWidth;
+  const maxY = gameArea.clientHeight - cloud.offsetHeight;
+
+  // Pick a random position
+  const randomX = Math.random() * maxX;
+  const randomY = Math.random() * maxY;
+
+  // Move the cloud to that position
+  cloud.style.left = randomX + "px";
+  cloud.style.top = randomY + "px";
+}
+
+/*
 function createDrop() {
   // Create a new div element that will be our water drop
   const drop = document.createElement("div");
@@ -57,4 +76,5 @@ function createDrop() {
   drop.addEventListener("animationend", () => {
     drop.remove(); // Clean up drops that weren't caught
   });
-}
+
+} */
