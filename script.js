@@ -15,6 +15,9 @@ const score = document.getElementById("score");
 const time = document.getElementById("time");
 const message = document.querySelector(".message");
 
+// Disable text highlighting
+cloud.style.userSelect = "none";
+
 let winMessage =["😀 Congratulations! You won!", "🎉 Great job!", "💧 You're a water collecting master!"];
 let loseMessage =["😢 Better luck next time!", "😴 Too slow!", "Keep trying!", "😦 Yikes! You can do better!"];
 
@@ -22,7 +25,7 @@ const levelData = {
   Easy: {
     cloudSpeed: 2000,
     weatherSpeed: 2000,
-    scoreToWin: 25
+    scoreToWin: 20
   },
   Medium: {
     cloudSpeed: 1500,
@@ -41,9 +44,14 @@ const levelData = {
 document.getElementById("start-btn").addEventListener("click", startGame);
 
 cloud.addEventListener("click", function() {
+  cloud.classList.remove("cloud-clicked");
+  void cloud.offsetWidth;
+  cloud.classList.add("cloud-clicked");
+
   if (gameRunning && cloud.textContent === "🌧️") {
     scoreValue += 1;
     score.textContent = scoreValue;
+    
   }
   else if (gameRunning && cloud.textContent === "☁️") {
     scoreValue -= 1;

@@ -144,9 +144,21 @@ footer {
   transition: left 1s ease, top 1s ease;
 }
 
-#cloud:hover {
-    transform: scale(1.1);  /* Slight grow effect on hover */
+#cloud.cloud-clicked {
+    animation: cloud-click 150ms ease-out;
 }
+
+@keyframes cloud-click {
+    50% {
+        transform: scale(1.12);
+    }
+}
+
+/*
+#cloud:hover {
+    transform: scale(1.1);   Slight grow effect on hover 
+}
+*/
 
 #start-btn {
     padding: 8px 16px;
