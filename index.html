@@ -7,10 +7,17 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
 </head>
+
+<header>
+      <div class="header-content">
+        <img src="img/logo.png" alt="Company Logo">
+      </div>
+</header>
+
 <body>
     <div class="game-wrapper">
         <h1 class="game-title"> Rain Chaser ⛈️</h1>
-        <p class="game-tagline">Click on the rain cloud to collect water! Avoid the sunny cloud!</p>
+        <p class="game-tagline">Click on the rain cloud to collect water! Avoid the sunny cloud! Choose a level to start the game.</p>
 
          <!-- Level Selector -->
         <select id="level-selector" class="form-select w-50 mb-3">
@@ -19,8 +26,6 @@
           <option value="Medium">Medium</option>
           <option value="Hard">Hard</option>
         </select>
-
-        
 
         <div class="score-panel">
             <div class="score">Score: <span id="score">0</span></div>
@@ -34,14 +39,26 @@
         <div id="game-container">
           <div id="cloud">🌧️</div>
         </div>
+
+        <div class="link-panel">
+          <div class="link-content">
+            <a href="https://www.charitywater.org/" target="_blank"><img src="img/water-can-transparent.png" alt="Jerry Can"></a>
+            <a href="https://www.charitywater.org/" target="_blank"><button id="link-btn">Donate</button></a>
+            <a href="https://www.charitywater.org/about" target="_blank"><button id="link-btn">About Charity Water</button></a>
+            <a href="https://www.charitywater.org/global-water-crisis" target="_blank"><button id="link-btn">Why Water?</button></a>
+          </div>
+        </div>
     </div>
     
+
     <script src="script.js"></script>
+    
     <footer>
       <div class="footer-content">
-        <img src="img/logo.png" alt="Company Logo" min-width="100px" max-width="200px">
+        <p>&copy; 2026 Rain Chaser Game. All rights reserved.</p>
       </div>
-    </footer>
+    </footer> 
+
   </body>
 
 

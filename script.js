@@ -33,7 +33,7 @@ const levelData = {
     scoreToWin: 15
   },
   Hard: {
-    cloudSpeed: 500,
+    cloudSpeed: 1000,
     weatherSpeed: 400,
     scoreToWin: 10
   }
@@ -68,8 +68,23 @@ function startGame() {
   let level = levelSelector.value; // Default level is Easy
 
   if (!levelData[level]) {
-    level = "Easy"; // Fallback to Easy if the selected level is not valid
+    message.textContent = "Choose a level to start the game!";
+    return;
   }
+  
+  
+  if (level === "Easy") 
+    {
+      message.textContent = "Game started! Get 20 points to win!";
+    } 
+  else if (level === "Medium") 
+    {
+      message.textContent = "Game started! Get 15 points to win!";
+    } 
+  else if (level === "Hard") 
+    {
+      message.textContent = "Game started! Get 10 points to win!";
+    }
 
   if (timerValue <= 0) {
     timerValue = 30;
@@ -136,7 +151,7 @@ function changeCloudWeather(speed) {
   if (!gameRunning) return;
 
   cloudMaker = setTimeout(function() {
-    cloud.textContent = cloud.textContent === "🌧️" ? "☁️" : "🌧️";
+    cloud.textContent = cloud.textContent === "🌧️" ? "🌥" : "🌧️";
     changeCloudWeather(speed); // Call the function again to keep changing the weather
   }, speed + Math.random() * 1500); // Change weather every 0.5 to 2 seconds
 }
