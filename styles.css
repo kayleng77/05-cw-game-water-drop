@@ -64,6 +64,32 @@ footer {
     gap: 20px;
 }
 
+#level-selector,
+#level-selector {
+  background-color: #FFC907;
+  color: #fff;
+  border: 1px solid #FFC907;
+  border-radius: 500px;
+  padding: 10px 100px;
+  font-weight: 600;
+  font-size:16px;
+  text-align: center;
+}
+
+#level-selector:focus,
+#level-selector:focus {
+  border-color: #fff;
+  box-shadow: 0 0 0 1px #fff;
+  outline: none;
+}
+
+#level-selector option,
+#level-selector option {
+  background-color: #d7a906;
+  color: #fff;
+}
+
+
 .score-panel {
     display: flex;
     justify-content: space-between;  /* Space between score and button */
@@ -127,7 +153,7 @@ footer {
     background-color: #FFC907;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 500px;
     cursor: pointer;
     font-weight: bold;
     font-size: 16px;

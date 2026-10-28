@@ -6,6 +6,7 @@ let cloudMover; // Stores timer that moves the cloud
 let timerValue = 30; 
 let scoreValue = 0;
 
+
 // DOM elements 
 const startButton = document.getElementById("start-btn");
 const cloud = document.getElementById("cloud");
@@ -16,6 +17,25 @@ const message = document.querySelector(".message");
 
 let winMessage =["😀 Congratulations! You won!", "🎉 Great job!", "💧 You're a water collecting master!"];
 let loseMessage =["😢 Better luck next time!", "😴 Too slow!", "Keep trying!", "😦 Yikes! You can do better!"];
+
+const levelData = {
+  Easy: {
+    cloudSpeed: 2000,
+    weatherSpeed: 2000,
+    scoreToWin: 25
+  },
+  Medium: {
+    cloudSpeed: 1500,
+    weatherSpeed: 500,
+    scoreToWin: 15
+  },
+  Hard: {
+    cloudSpeed: 500,
+    weatherSpeed: 400,
+    scoreToWin: 10
+  }
+};
+
 
 // Wait for button click to start the game
 document.getElementById("start-btn").addEventListener("click", startGame);
@@ -34,6 +54,14 @@ cloud.addEventListener("click", function() {
 function startGame() {
   // Prevent multiple games from running at once
   if (gameRunning) return;
+
+  let levelSelector = document.getElementById("level-selector");
+
+  let level = levelSelector.value; // Default level is Easy
+
+  if (!levelData[level]) {
+    level = "Easy"; // Fallback to Easy if the selected level is not valid
+  }
 
   if (timerValue <= 0) {
     timerValue = 30;
@@ -56,7 +84,7 @@ function startGame() {
       time.textContent = "0";
       message.textContent = "Game over!";
 
-      if(scoreValue >= 5) {
+      if(scoreValue >= levelData[level].scoreToWin) {
         const randomWinMessage = winMessage[Math.floor(Math.random() * winMessage.length)];
         message.textContent = randomWinMessage;
         showConfetti();
@@ -76,10 +104,10 @@ function startGame() {
 
   // Create new drops every second (1000 milliseconds)
   //dropMaker = setInterval(createDrop, 1000);
-
+  
   moveCloud(); // Move the cloud immediately when the game starts (1st second then stops)
-  cloudMover = setInterval(moveCloud, 1000); 
-  changeCloudWeather();
+  cloudMover = setInterval(moveCloud, levelData[level].cloudSpeed); // Move the cloud every second (1000 milliseconds)
+  changeCloudWeather(levelData[level].weatherSpeed); // Change the cloud's weather every second (1000 milliseconds)
 }
 
 function moveCloud() {
@@ -96,13 +124,13 @@ function moveCloud() {
   cloud.style.top = randomY + "px";
 }
 
-function changeCloudWeather() {
+function changeCloudWeather(speed) {
   if (!gameRunning) return;
 
   cloudMaker = setTimeout(function() {
     cloud.textContent = cloud.textContent === "🌧️" ? "☁️" : "🌧️";
-    changeCloudWeather();
-  }, 500 + Math.random() * 1500);
+    changeCloudWeather(speed); // Call the function again to keep changing the weather
+  }, speed + Math.random() * 1500); // Change weather every 0.5 to 2 seconds
 }
 
 function showConfetti() {
