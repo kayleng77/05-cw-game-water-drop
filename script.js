@@ -5,7 +5,9 @@ let cloudMaker; // Stores ID timer that changes the cloud's weather
 let cloudMover; // Stores timer that moves the cloud
 let timerValue = 30; 
 let scoreValue = 0;
-
+const loseSound = new Audio('audio/freesound_community-water-drop-85731.mp3');
+const winSound = new Audio('audio/universfield-water-splash-02-352021.mp3');
+const backgroundMusic = new Audio('audio/dragon-studio-gentle-rain-05-437316.mp3');
 
 // DOM elements 
 const startButton = document.getElementById("start-btn");
@@ -18,8 +20,10 @@ const message = document.querySelector(".message");
 // Disable text highlighting
 cloud.style.userSelect = "none";
 
-let winMessage =["😀 Congratulations! You won!", "🎉 Great job!", "💧 You're a water collecting master!"];
+let winMessage =["😀 Congratulations! You won!", "🎉 Great job!", "💧 You're a water collecting master!", "Nice job!"];
 let loseMessage =["😢 Better luck next time!", "😴 Too slow!", "Keep trying!", "😦 Yikes! You can do better!"];
+let halfTimeMessage = ["Halfway there! Keep going!", "💪 You're doing great! Halfway there!", "🏃‍♂️ Keep up the pace! You're half done!"];
+let pastHalfTimeMessage = ["You're almost there! Keep going!", "Only a couple more clicks away!", "🏃‍♂️ You're so close!"];
 
 const levelData = {
   Easy: {
@@ -53,7 +57,7 @@ cloud.addEventListener("click", function() {
     score.textContent = scoreValue;
     
   }
-  else if (gameRunning && cloud.textContent === "☁️") {
+  else if (gameRunning && cloud.textContent === "🌥") {
     scoreValue -= 1;
     score.textContent = scoreValue;
   }
@@ -62,6 +66,7 @@ cloud.addEventListener("click", function() {
 function startGame() {
   // Prevent multiple games from running at once
   if (gameRunning) return;
+  
 
   let levelSelector = document.getElementById("level-selector");
 
@@ -71,7 +76,7 @@ function startGame() {
     message.textContent = "Choose a level to start the game!";
     return;
   }
-
+  
   if (timerValue <= 0) {
     timerValue = 30;
     scoreValue = 0;
@@ -94,26 +99,83 @@ function startGame() {
     message.textContent = "Game started! Get 10 points to win!";
   }
 
+  halfCounter = 0; // Reset half-time message counter
+  halfPastCounter = 0; // Reset past half-time message counter
+  backgroundMusic.play();
+
+  /* TIMER START */
   const countdownInterval = setInterval(function() {
     timerValue--;
     time.textContent = timerValue;
+
+    if (timerValue != 0 && halfCounter === 0) {
+      
+      if(level === "Easy" && scoreValue >= 10 && scoreValue < 15) 
+      {
+        const randomHalfTimeMessage = halfTimeMessage[Math.floor(Math.random() * halfTimeMessage.length)];
+        message.textContent = "You need 20 points to win! " + randomHalfTimeMessage;
+        halfCounter++;
+      }
+      else if (level === "Medium" && scoreValue >= 7 && scoreValue < 12)
+      {
+        const randomHalfTimeMessage = halfTimeMessage[Math.floor(Math.random() * halfTimeMessage.length)];
+        message.textContent = "You need 15 points to win! " + randomHalfTimeMessage;
+        halfCounter++;
+      }
+      else if (level === "Hard" && scoreValue >= 5 && scoreValue < 10)
+      {
+        const randomHalfTimeMessage = halfTimeMessage[Math.floor(Math.random() * halfTimeMessage.length)];
+        message.textContent = "You need 10 points to win! " + randomHalfTimeMessage;
+        halfCounter++;
+      }
+      
+    }
+
+    if (timerValue != 0 && halfPastCounter === 0) {
+      
+      if(level === "Easy" && scoreValue >= 15 && scoreValue < 20) 
+      {
+        
+        const randomHalfPastTimeMessage = pastHalfTimeMessage[Math.floor(Math.random() * pastHalfTimeMessage.length)];
+        message.textContent = randomHalfPastTimeMessage;
+        halfPastCounter++;
+      }
+      else if (level === "Medium" && scoreValue >= 12 && scoreValue < 15)
+      {
+        const randomHalfPastTimeMessage = pastHalfTimeMessage[Math.floor(Math.random() * pastHalfTimeMessage.length)];
+        message.textContent = randomHalfPastTimeMessage;
+        halfPastCounter++;
+      }
+      else if (level === "Hard" && scoreValue >= 5 && scoreValue < 10)
+      {
+        const randomHalfPastTimeMessage = pastHalfTimeMessage[Math.floor(Math.random() * pastHalfTimeMessage.length)];
+        message.textContent = randomHalfPastTimeMessage;
+        halfPastCounter++;
+      }
+      
+    }
 
     if (timerValue <= 0) {
       clearInterval(countdownInterval);
       clearTimeout(cloudMaker);
       clearInterval(cloudMover);
+      // backgroundMusic.pause(); // use if audio file is longer than 30 seconds
+      // backgroundMusic.currentTime = 0; // Reset audio to start
+      backgroundMusic.pause();
+      cloud.textContent = "☁️";
       gameRunning = false;
       time.textContent = "0";
-      message.textContent = "Game over!";
 
       if(scoreValue >= levelData[level].scoreToWin) {
         const randomWinMessage = winMessage[Math.floor(Math.random() * winMessage.length)];
         message.textContent = randomWinMessage;
         showConfetti();
-
-      } else {
+        winSound.play();
+        } 
+      else {
         const randomLoseMessage = loseMessage[Math.floor(Math.random() * loseMessage.length)];
         message.textContent = randomLoseMessage;
+        loseSound.play();
       }
 
       startButton.textContent = "Restart Game";
