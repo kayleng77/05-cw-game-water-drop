@@ -71,20 +71,6 @@ function startGame() {
     message.textContent = "Choose a level to start the game!";
     return;
   }
-  
-  
-  if (level === "Easy") 
-    {
-      message.textContent = "Game started! Get 20 points to win!";
-    } 
-  else if (level === "Medium") 
-    {
-      message.textContent = "Game started! Get 15 points to win!";
-    } 
-  else if (level === "Hard") 
-    {
-      message.textContent = "Game started! Get 10 points to win!";
-    }
 
   if (timerValue <= 0) {
     timerValue = 30;
@@ -95,6 +81,19 @@ function startGame() {
     startButton.textContent = "Start Game";
   }
   
+  if (level === "Easy") 
+  {
+    message.textContent = "Game started! Get 20 points to win!";
+  } 
+  else if (level === "Medium") 
+  {
+    message.textContent = "Game started! Get 15 points to win!";
+  } 
+  else if (level === "Hard") 
+  {
+    message.textContent = "Game started! Get 10 points to win!";
+  }
+
   const countdownInterval = setInterval(function() {
     timerValue--;
     time.textContent = timerValue;
