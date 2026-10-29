@@ -173,34 +173,11 @@ header {
     color: #2E9DF7;
 }
 
-
-.water-drop {
-    position: absolute;
-    width: 60px;  /* increased from 40px */
-    height: 60px; /* increased from 40px */
-    background-color: #0099ff;
-    border-radius: 50%;
-    animation: dropFall linear forwards;
-    transform-origin: center;
-    cursor: pointer;
-    padding: 15px;  /* Add padding for larger click area */
-    margin: -15px;  /* Offset padding to maintain visual size */
-    transition: transform 0.1s ease;  /* Smooth hover effect */
-} 
-
-.water-drop:hover {
-    transform: scale(1.1);  /* Slight grow effect on hover */
-}
-
-.bad-drop {
-    background-color: #ff4444;
-}
-
 .game-title {
     color: #ffffff;
     font-size: 48px;
     margin-top: 50px;
-    margin-bottom: 5px;  /* reduced from 20px */
+    margin-bottom: 5px;  
     text-align: center;
     font-family: "Avenir", sans-serif;
 
@@ -277,15 +254,6 @@ footer {
     width: 50px;  /* choose the size you want */
     height: auto;  /* preserve the logo's proportions */
     max-width: 100%;
-}
-
-@keyframes dropFall {
-    from {
-        transform: translateY(-20px);
-    }
-    to {
-        transform: translateY(600px);
-    }
 }
 
 @media (max-width: 850px) {

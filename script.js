@@ -20,11 +20,13 @@ const message = document.querySelector(".message");
 // Disable text highlighting
 cloud.style.userSelect = "none";
 
+// Messages for different game outcomes
 let winMessage =["😀 Congratulations! You won!", "🎉 Great job!", "💧 You're a water collecting master!", "Nice job!"];
 let loseMessage =["😢 Better luck next time!", "😴 Too slow!", "Keep trying!", "😦 Yikes! You can do better!"];
 let halfTimeMessage = ["Halfway there! Keep going!", "💪 You're doing great! Halfway there!", "🏃‍♂️ Keep up the pace! You're half done!"];
 let pastHalfTimeMessage = ["You're almost there! Keep going!", "Only a couple more clicks away!", "🏃‍♂️ You're so close!"];
 
+// Level settings for different levels
 const levelData = {
   Easy: {
     cloudSpeed: 2000,
@@ -37,16 +39,15 @@ const levelData = {
     scoreToWin: 15
   },
   Hard: {
-    cloudSpeed: 1000,
+    cloudSpeed: 800,
     weatherSpeed: 400,
     scoreToWin: 10
   }
 };
 
-
-// Wait for button click to start the game
-document.getElementById("start-btn").addEventListener("click", startGame);
-
+// Event listeners for user interactions
+document.getElementById("start-btn").addEventListener("click", startGame); // Wait for button click to start the game
+// Wait for cloud click to update score
 cloud.addEventListener("click", function() {
   cloud.classList.remove("cloud-clicked");
   void cloud.offsetWidth;
@@ -63,20 +64,21 @@ cloud.addEventListener("click", function() {
   }
 });
 
+/* GAME START */
 function startGame() {
-  // Prevent multiple games from running at once
-  if (gameRunning) return;
+
+  if (gameRunning) return; // Prevent multiple games from running at once
   
-
+  // Get the selected level from the dropdown
   let levelSelector = document.getElementById("level-selector");
-
-  let level = levelSelector.value; // Default level is Easy
+  let level = levelSelector.value; 
 
   if (!levelData[level]) {
     message.textContent = "Choose a level to start the game!";
     return;
   }
   
+  // Reset game state
   if (timerValue <= 0) {
     timerValue = 30;
     scoreValue = 0;
@@ -86,6 +88,7 @@ function startGame() {
     startButton.textContent = "Start Game";
   }
   
+  // Start message based on level
   if (level === "Easy") 
   {
     message.textContent = "Game started! Get 20 points to win!";
@@ -108,27 +111,27 @@ function startGame() {
     timerValue--;
     time.textContent = timerValue;
 
+    // Milstone messages based on score and level
     if (timerValue != 0 && halfCounter === 0) {
       
       if(level === "Easy" && scoreValue >= 10 && scoreValue < 15) 
       {
         const randomHalfTimeMessage = halfTimeMessage[Math.floor(Math.random() * halfTimeMessage.length)];
-        message.textContent = "You need 20 points to win! " + randomHalfTimeMessage;
+        message.textContent = randomHalfTimeMessage;
         halfCounter++;
       }
       else if (level === "Medium" && scoreValue >= 7 && scoreValue < 12)
       {
         const randomHalfTimeMessage = halfTimeMessage[Math.floor(Math.random() * halfTimeMessage.length)];
-        message.textContent = "You need 15 points to win! " + randomHalfTimeMessage;
+        message.textContent = randomHalfTimeMessage;
         halfCounter++;
       }
       else if (level === "Hard" && scoreValue >= 5 && scoreValue < 10)
       {
         const randomHalfTimeMessage = halfTimeMessage[Math.floor(Math.random() * halfTimeMessage.length)];
-        message.textContent = "You need 10 points to win! " + randomHalfTimeMessage;
+        message.textContent = randomHalfTimeMessage;
         halfCounter++;
       }
-      
     }
 
     if (timerValue != 0 && halfPastCounter === 0) {
@@ -155,17 +158,18 @@ function startGame() {
       
     }
 
+    // End game when timer reaches 0
     if (timerValue <= 0) {
       clearInterval(countdownInterval);
       clearTimeout(cloudMaker);
       clearInterval(cloudMover);
       // backgroundMusic.pause(); // use if audio file is longer than 30 seconds
       // backgroundMusic.currentTime = 0; // Reset audio to start
-      backgroundMusic.pause();
       cloud.textContent = "☁️";
       gameRunning = false;
       time.textContent = "0";
-
+      
+      // Win or lose message based on score
       if(scoreValue >= levelData[level].scoreToWin) {
         const randomWinMessage = winMessage[Math.floor(Math.random() * winMessage.length)];
         message.textContent = randomWinMessage;
@@ -185,13 +189,10 @@ function startGame() {
   
   gameRunning = true;
   cloud.textContent = "🌧️";
-
-  // Create new drops every second (1000 milliseconds)
-  //dropMaker = setInterval(createDrop, 1000);
   
   moveCloud(); // Move the cloud immediately when the game starts (1st second then stops)
-  cloudMover = setInterval(moveCloud, levelData[level].cloudSpeed); // Move the cloud every second (1000 milliseconds)
-  changeCloudWeather(levelData[level].weatherSpeed); // Change the cloud's weather every second (1000 milliseconds)
+  cloudMover = setInterval(moveCloud, levelData[level].cloudSpeed); // Move the cloud every second 
+  changeCloudWeather(levelData[level].weatherSpeed); // Change the cloud's weather 
 }
 
 function moveCloud() {
@@ -226,33 +227,3 @@ function showConfetti() {
   );
 }
 
-/*
-function createDrop() {
-  // Create a new div element that will be our water drop
-  const drop = document.createElement("div");
-  drop.className = "water-drop";
-
-  // Make drops different sizes for visual variety
-  const initialSize = 60;
-  const sizeMultiplier = Math.random() * 0.8 + 0.5;
-  const size = initialSize * sizeMultiplier;
-  drop.style.width = drop.style.height = `${size}px`;
-
-  // Position the drop randomly across the game width
-  // Subtract 60 pixels to keep drops fully inside the container
-  const gameWidth = document.getElementById("game-container").offsetWidth;
-  const xPosition = Math.random() * (gameWidth - 60);
-  drop.style.left = xPosition + "px";
-
-  // Make drops fall for 4 seconds
-  drop.style.animationDuration = "4s";
-
-  // Add the new drop to the game screen
-  document.getElementById("game-container").appendChild(drop);
-
-  // Remove drops that reach the bottom (weren't clicked)
-  drop.addEventListener("animationend", () => {
-    drop.remove(); // Clean up drops that weren't caught
-  });
-
-} */
