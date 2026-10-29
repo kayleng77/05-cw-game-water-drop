@@ -104,6 +104,8 @@ function startGame() {
 
   halfCounter = 0; // Reset half-time message counter
   halfPastCounter = 0; // Reset past half-time message counter
+
+  // Start background music
   backgroundMusic.play();
 
   /* TIMER START */
@@ -163,8 +165,8 @@ function startGame() {
       clearInterval(countdownInterval);
       clearTimeout(cloudMaker);
       clearInterval(cloudMover);
-      // backgroundMusic.pause(); // use if audio file is longer than 30 seconds
-      // backgroundMusic.currentTime = 0; // Reset audio to start
+      backgroundMusic.pause(); 
+      backgroundMusic.currentTime = 0; // Reset audio to start
       cloud.textContent = "☁️";
       gameRunning = false;
       time.textContent = "0";
